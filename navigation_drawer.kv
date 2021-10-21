@@ -1,0 +1,60 @@
+#:import images_path kivymd.images_path
+#:import version kivymd.__version__
+
+
+<ContentNavDrawer>
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        FloatLayout:
+            size_hint_y: None
+            height: "200dp"
+
+            canvas:
+                Color:
+                    rgba: app.theme_cls.primary_color
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+
+MDScreen:
+    name: "navigation drawer"
+
+    MDNavigationLayout:
+
+        ScreenManager:
+
+            Screen:
+
+                BoxLayout:
+                    orientation: "vertical"
+
+                    MDToolbar:
+                        title: "Navigation Drawer"
+                        md_bg_color: app.theme_cls.primary_color
+                        elevation: 10
+                        left_action_items: [["menu", lambda x: nav_drawer.set_state("toggle")]]
+                        right_action_items: [["arrow-left", lambda x: app.back_to_home_screen()]]
+
+                    BoxLayout:
+                        orientation: "vertical"
+                        padding: "16dp"
+                        spacing: "8dp"
+
+                        MDRaisedButton:
+                            text: "MDNavigationDrawer.type = " + nav_drawer.type
+                            on_release: nav_drawer.type = "standard" if nav_drawer.type == "modal" else "modal"
+
+                        MDRaisedButton:
+                            text: "MDNavigationDrawer.anchor = " + nav_drawer.anchor
+                            on_release: nav_drawer.anchor = "right" if nav_drawer.anchor == "left" else "left"
+
+                        Widget:
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavDrawer:
+                id: content_drawer
