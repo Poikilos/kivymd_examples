@@ -9,27 +9,45 @@ from kivy.properties import ObjectProperty, StringProperty, ListProperty
 from kivy.uix.screenmanager import Screen
 # ^ It must be from screenmanager!
 #   See KivyMD/demos/kitchen_sink/libs/baseclass/navigation_drawer.py
+from kivymd.uix.list import (
+    OneLineAvatarListItem,
+)
 
 
 class ContentNavDrawer(BoxLayout):
     pass
 
 
-class NavDrawerScreen(Screen):
-    pass
-    '''
+class OneLineLeftIconItem(OneLineAvatarListItem):
+    icon = StringProperty()
+
+
+class NavDrawer(Screen):
     def __init__(self, **kw):
-        super(NavDrawerScreen, self).__init__(**kw)
+        super(NavDrawer, self).__init__(**kw)
         Clock.schedule_once(self.__post_init__)
 
     def __post_init__(self, *args):
         pass
-    '''
+    #def on_enter(self):
+        print("on_enter...")
+        if not self.ids.content_drawer.ids.box_item.children:
+            for icon, text in {
+                "home-circle-outline": "Home",
+                "update": "Check for Update",
+                "cog-outline": "Settings",
+                "exit-to-app": "Exit",
+            }.items():
+                self.ids.content_drawer.ids.box_item.add_widget(
+                    OneLineLeftIconItem(
+                        text=text, icon=icon, divider=None
+                    )
+                )
 
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
-        self.title = "My Material Application"
+        self.title = "Navigation Drawer (kivymd_examples)"
         super().__init__(**kwargs)
 
     def build(self):
